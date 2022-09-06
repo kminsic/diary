@@ -18,7 +18,6 @@ public class LikeController {
     @PostMapping( "/api/auth/posts/like/{id}")
     public ResponseDto<?> addPostLike(@PathVariable Long id, HttpServletRequest request) {
         return likeService.addPostLike(id, request);
-//        return likeService.addPostLike(id, request);
     }
 
     // 댓글 좋아요

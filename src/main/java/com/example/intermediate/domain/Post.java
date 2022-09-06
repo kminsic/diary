@@ -4,13 +4,12 @@ import com.example.intermediate.controller.request.PostRequestDto;
 import java.util.List;
 import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.example.intermediate.controller.response.PostResponseDto;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Builder
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -38,13 +37,6 @@ public class Post extends Timestamped {
 
   @Column(nullable = false)
   private int likes;
-
-  // 게시글 업데이트
-  public void update(PostRequestDto postRequestDto) {
-    this.title = postRequestDto.getTitle();
-    this.content = postRequestDto.getContent();
-    this.imgUrl = postRequestDto.getImgUrl();
-  }
 
   //회원정보 검증
   public boolean validateMember(Member member) {

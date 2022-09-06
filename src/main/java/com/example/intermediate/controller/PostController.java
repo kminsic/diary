@@ -39,9 +39,12 @@ public class PostController {
 
   // 게시글 수정
   @PutMapping( "/api/auth/posts/{id}")
-  public ResponseDto<?> updatePost(@PathVariable Long id, @RequestBody PostRequestDto postRequestDto,
-      HttpServletRequest request) {
-    return postService.updatePost(id, postRequestDto, request);
+  public ResponseDto<?> updatePost(@PathVariable Long id,
+                                   @RequestPart(value = "title") PostRequestDto requestDto1,
+                                   @RequestPart(value = "content") PostRequestDto  requestDto2,
+                                   @RequestPart(value = "image" ,required = false) MultipartFile file,
+                                   HttpServletRequest request) {
+    return postService.updatePost(id, requestDto1, requestDto2, file, request);
   }
 
   //게시글 삭제

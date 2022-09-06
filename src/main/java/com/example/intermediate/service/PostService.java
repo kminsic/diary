@@ -44,7 +44,11 @@ public class PostService {
 
   // 게시글 작성
   @Transactional
-  public ResponseDto<?> createPost(PostRequestDto requestDto1,PostRequestDto requestDto2, HttpServletRequest request,MultipartFile file) {   //
+  public ResponseDto<?> createPost(PostRequestDto requestDto1,
+                                   PostRequestDto requestDto2,
+                                   HttpServletRequest request,
+                                   MultipartFile file) {
+
     if (null == request.getHeader("RefreshToken")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
               "로그인이 필요합니다.");
@@ -71,8 +75,6 @@ public class PostService {
     }
      ResponseDto.success(s3Service.getFileUrl(fileName));
 
-
-
     Post post = Post.builder()
         .title(requestDto1.getTitle())
         .content(requestDto2.getContent())
@@ -80,7 +82,9 @@ public class PostService {
         .likes(0)
         .member(member)
         .build();
+
     postRepository.save(post);
+
     return ResponseDto.success(
         PostResponseDto.builder()
             .id(post.getId())
@@ -162,7 +166,13 @@ public class PostService {
 
   // 게시글 수정
   @Transactional
-  public ResponseDto<?> updatePost(Long id, PostRequestDto requestDto, HttpServletRequest request) {
+  public ResponseDto<?> updatePost(Long id,
+                                   PostRequestDto requestDto1,
+                                   PostRequestDto requestDto2,
+                                   MultipartFile file,
+                                   HttpServletRequest request
+                                   ) {
+
     if (null == request.getHeader("RefreshToken")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
           "로그인이 필요합니다.");
@@ -178,6 +188,7 @@ public class PostService {
       return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
     }
 
+    // 게시글 호출
     Post post = isPresentPost(id);
     if (null == post) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
@@ -187,12 +198,25 @@ public class PostService {
       return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
     }
 
-    post.update(requestDto);
+    // 게시글 수정
+    String fileName = createFileName(file.getOriginalFilename());  // 파일 이름을 유니크한 이름으로 재지정. 같은 이름의 파일을 업로드 하면 overwrite 됨
+    ObjectMetadata objectMetadata = new ObjectMetadata();
+    objectMetadata.setContentType(file.getContentType());
+    objectMetadata.setContentLength(file.getSize());
+    try (InputStream inputStream = file.getInputStream()) {
+      s3Service.uploadFile(inputStream, objectMetadata, fileName);
+    } catch (IOException e) {
+      throw new IllegalArgumentException(String.format("파일 변환 중 에러가 발생하였습니다 (%s)", file.getOriginalFilename()));
+    }
+    ResponseDto.success(s3Service.getFileUrl(fileName));
 
+    post.setTitle(requestDto1.getTitle());
+    post.setContent(requestDto2.getContent());
+    post.setImgUrl(s3Service.getFileUrl(fileName));
+
+    // 댓글 목록 생성
     List<Comment> commentList = commentRepository.findAllByPost(post);
     List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
-
-
 
     for (Comment comment : commentList) {
       commentResponseDtoList.add(
