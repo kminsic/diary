@@ -55,6 +55,6 @@ public class PostController {
   @DeleteMapping( "/api/posts/organize/{id}")
   public String organizePost(@PathVariable Long id) {
     postService.organize(id);
-    return "scheduler completed"
+    return "scheduler completed";
   }
 }

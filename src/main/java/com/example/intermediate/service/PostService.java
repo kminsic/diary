@@ -162,7 +162,7 @@ public class PostService {
 
   // 게시글 수정
   @Transactional
-  public ResponseDto<Post> updatePost(Long id, PostRequestDto requestDto, HttpServletRequest request) {
+  public ResponseDto<?> updatePost(Long id, PostRequestDto requestDto, HttpServletRequest request) {
     if (null == request.getHeader("RefreshToken")) {
       return ResponseDto.fail("MEMBER_NOT_FOUND",
           "로그인이 필요합니다.");
@@ -188,7 +188,37 @@ public class PostService {
     }
 
     post.update(requestDto);
-    return ResponseDto.success(post);
+
+    List<Comment> commentList = commentRepository.findAllByPost(post);
+    List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
+
+
+
+    for (Comment comment : commentList) {
+      commentResponseDtoList.add(
+              CommentResponseDto.builder()
+                      .id(comment.getId())
+                      .nickname(comment.getMember().getNickname())
+                      .content(comment.getContent())
+                      .createdAt(comment.getCreatedAt())
+                      .modifiedAt(comment.getModifiedAt())
+                      .build()
+      );
+    }
+
+    return ResponseDto.success(
+            PostResponseDto.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .content(post.getContent())
+                    .imgUrl(post.getImgUrl())
+                    .likes(post.getLikes())
+                    .commentResponseDtoList(commentResponseDtoList)
+                    .nickname(post.getMember().getNickname())
+                    .createdAt(post.getCreatedAt())
+                    .modifiedAt(post.getModifiedAt())
+                    .build()
+    );
   }
 
   // 게시글 삭제

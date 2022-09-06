@@ -32,7 +32,7 @@ public class Comment extends Timestamped {
 
   private int likes;
 
-
+  // 댓글 업데이트
   public void update(CommentRequestDto commentRequestDto) {
     this.content = commentRequestDto.getContent();
   }

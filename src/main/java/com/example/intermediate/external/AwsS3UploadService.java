@@ -35,7 +35,7 @@ public class AwsS3UploadService implements UploadService {
     // 파일 삭제
     public void deleteFile(String fileName) {
         try {
-            amazonS3.deleteObject("{BUCKET_NAME}", (fileName).replace(File.separatorChar, '/'));
+            amazonS3.deleteObject("mygreensparta", (fileName).replace(File.separatorChar, '/'));
         } catch (AmazonServiceException e) {
             System.err.println(e.getErrorMessage());
         }
