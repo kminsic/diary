@@ -18,13 +18,12 @@ public class PostController {
 
   // 게시글 작성
   @PostMapping( "/api/auth/posts")
-  public ResponseDto<?> createPost(@RequestPart(value = "title") PostRequestDto requestDto1,@RequestPart(value = "content") PostRequestDto  requestDto2
-      ,@RequestPart(value = "image" ,required = false) MultipartFile file,HttpServletRequest request) {
+  public ResponseDto<?> createPost(@RequestPart(value = "title") PostRequestDto requestDto1,
+                                   @RequestPart(value = "content") PostRequestDto  requestDto2,
+                                   @RequestPart(value = "image" ,required = false) MultipartFile file,
+                                   HttpServletRequest request) {
     return postService.createPost(requestDto1,requestDto2, request,file);
   }
-
-
-
 
   // 상세 게시글 가져오기
   @GetMapping( "/api/posts/{id}")
@@ -56,6 +55,6 @@ public class PostController {
   @DeleteMapping( "/api/posts/organize/{id}")
   public String organizePost(@PathVariable Long id) {
     postService.organize(id);
-    return "scheduler completed";
+    return "scheduler completed"
   }
 }

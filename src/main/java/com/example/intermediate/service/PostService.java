@@ -9,6 +9,7 @@ import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.domain.Comment;
 import com.example.intermediate.domain.Member;
 import com.example.intermediate.domain.Post;
+import com.example.intermediate.external.AwsS3UploadService;
 import com.example.intermediate.external.UploadService;
 import com.example.intermediate.jwt.TokenProvider;
 import com.example.intermediate.repository.CommentRepository;
@@ -38,6 +39,10 @@ public class PostService {
   private final TokenProvider tokenProvider;
   private final static Logger LOG = Logger.getGlobal();
   private final UploadService s3Service;
+
+  private final AwsS3UploadService awsS3UploadService;
+
+  // 게시글 작성
   @Transactional
   public ResponseDto<?> createPost(PostRequestDto requestDto1,PostRequestDto requestDto2, HttpServletRequest request,MultipartFile file) {   //
     if (null == request.getHeader("RefreshToken")) {
@@ -90,6 +95,7 @@ public class PostService {
     );
   }
 
+  // 게시글 단건 조회
   @Transactional(readOnly = true)
   public ResponseDto<?> getPost(Long id) {
     Post post = isPresentPost(id);
@@ -129,6 +135,7 @@ public class PostService {
     );
   }
 
+  // 전체 게시글 조회
   @Transactional(readOnly = true)
   public ResponseDto<?> getAllPost() {
     List<Post> postList = postRepository.findAllByOrderByModifiedAtDesc();
@@ -153,6 +160,7 @@ public class PostService {
 //    return ResponseDto.success(postRepository.findAllByOrderByModifiedAtDesc());
   }
 
+  // 게시글 수정
   @Transactional
   public ResponseDto<Post> updatePost(Long id, PostRequestDto requestDto, HttpServletRequest request) {
     if (null == request.getHeader("RefreshToken")) {
@@ -183,6 +191,7 @@ public class PostService {
     return ResponseDto.success(post);
   }
 
+  // 게시글 삭제
   @Transactional
   public ResponseDto<?> deletePost(Long id, HttpServletRequest request) {
     if (null == request.getHeader("RefreshToken")) {
@@ -210,10 +219,16 @@ public class PostService {
     }
 
     postRepository.delete(post);
+
+    awsS3UploadService.deleteFile(getFileNameFromURL(post.getImgUrl()));
+
     return ResponseDto.success("delete success");
   }
 
-
+  // URL 에서 파일이름(key) 추출
+  public static String getFileNameFromURL(String url) {
+    return url.substring(url.lastIndexOf('/') + 1, url.length());
+  }
 
   @Transactional(readOnly = true)
   public Post isPresentPost(Long id) {
