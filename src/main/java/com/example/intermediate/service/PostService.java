@@ -188,7 +188,7 @@ public class PostService {
       return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
     }
 
-    // 게시글 호출
+    /// 게시글 호출
     Post post = isPresentPost(id);
     if (null == post) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
@@ -198,7 +198,7 @@ public class PostService {
       return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
     }
 
-    // 게시글 수정
+    /// 게시글 수정
     String fileName = createFileName(file.getOriginalFilename());  // 파일 이름을 유니크한 이름으로 재지정. 같은 이름의 파일을 업로드 하면 overwrite 됨
     ObjectMetadata objectMetadata = new ObjectMetadata();
     objectMetadata.setContentType(file.getContentType());
@@ -210,11 +210,13 @@ public class PostService {
     }
     ResponseDto.success(s3Service.getFileUrl(fileName));
 
+    awsS3UploadService.deleteFile(getFileNameFromURL(post.getImgUrl()));  // 기존 파일 삭제
+
     post.setTitle(requestDto1.getTitle());
     post.setContent(requestDto2.getContent());
     post.setImgUrl(s3Service.getFileUrl(fileName));
 
-    // 댓글 목록 생성
+    /// 댓글 목록 생성
     List<Comment> commentList = commentRepository.findAllByPost(post);
     List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
