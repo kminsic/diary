@@ -15,5 +15,4 @@ import java.util.List;
 public class MyPageResponseDto {
     private List<PostResponseDto> postResponseDtoList;
     private List<CommentResponseMyPageDto> commentResponseMyPageDtoList;
-    private List<SubCommentResponseMyPageDto> subCommentResponseMyPageDtoList;
 }
