@@ -1,23 +1,28 @@
 package com.example.intermediate.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class FileUpload {
-
+public class PostLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String imgUrl;
+    @Column(nullable = false)
+    private Long requestId;
+
+    @Column(nullable = false)
+    private String nickname;
+
 }
+
+//라이크 신기능
