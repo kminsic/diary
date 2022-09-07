@@ -1,5 +1,6 @@
 package com.example.intermediate.external;
 
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -8,6 +9,7 @@ import com.example.intermediate.external.dto.S3Component;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.InputStream;
 
 @RequiredArgsConstructor
@@ -28,6 +30,15 @@ public class AwsS3UploadService implements UploadService {
     @Override
     public String getFileUrl(String fileName) {
         return amazonS3.getUrl(component.getBucket(), fileName).toString();
+    }
+
+    // 파일 삭제
+    public void deleteFile(String fileName) {
+        try {
+            amazonS3.deleteObject("minipro-bucket", (fileName).replace(File.separatorChar, '/'));
+        } catch (AmazonServiceException e) {
+            System.err.println(e.getErrorMessage());
+        }
     }
 
 }

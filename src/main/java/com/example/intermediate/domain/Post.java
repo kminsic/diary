@@ -1,16 +1,12 @@
 package com.example.intermediate.domain;
 
-import com.example.intermediate.controller.request.PostRequestDto;
-import java.util.List;
-import javax.persistence.*;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import javax.persistence.*;
+import java.util.List;
 
 @Builder
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -36,24 +32,28 @@ public class Post extends Timestamped {
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
 
-  @Column(nullable = false)
+  @Column
   private int likes;
 
-  // 게시글 업데이트
-  public void update(PostRequestDto postRequestDto) {
-    this.title = postRequestDto.getTitle();
-    this.content = postRequestDto.getContent();
-  }
 
   //회원정보 검증
   public boolean validateMember(Member member) {
     return !this.member.equals(member);
   }
 
-  public void addLike() {
-    this.likes += 1;
-    System.out.println("this.content = " + this.content);
-    System.out.println("this.likes = " + this.likes);
-  }
+//  public void addLike() {
+//    this.likes += 1;
+//    System.out.println("this.content = " + this.content);
+//    System.out.println("this.likes = " + this.likes);
+//  }
+//  public void delteLike(){
+//    this.likes -= 1;
+//  }
+
+ // 라이크 신기능
+public void updatelikes(int num) {
+  this.likes = (num);
+}
+
 
 }
