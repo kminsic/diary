@@ -34,17 +34,18 @@ ERD
 
 [댓글 삭제](https://www.notion.so/455263b828e54bfd8a83a92a558ec329)
 
-[게시글 좋아요](https://www.notion.so/83c909d4823140fa8e1ab8d6952f142d)
+[게시글 좋아요/삭제](https://www.notion.so/83c909d4823140fa8e1ab8d6952f142d)
 
 [마이페이지](https://www.notion.so/0c9a7e5a9f664aeabcb3ca3784d22183)
 
 [스케쥴러](https://www.notion.so/a3d8d9e9478e48e8a4a2413097800a24)
 
 ===========================================================================
-Trouble Shooting
+<br>
+<h1>Trouble Shooting</h1>
 
-BE:회원가입은 되는데 로그인 실패. SQL error 500 메시지 나옴. 기존 아이디는 로그인이 가능했었는데 
-postman으로 새로운 아이디 생성해서 로그인했더니 nullpointexception이 터져서 확인 해봤더니 
+BE:회원가입은 되는데 로그인 실패. SQL error 500 메시지 나옴. 기존 아이디는 로그인이 가능했었음
+postman으로 새로운 아이디 생성 후 로그인시도 콘솔에 nullpointexception이 터져서 확인, 
 refresh토큰 테이블에 잘못된 entity속성이 들어갔음.
 db초기화 후 로그인 성공함
 
