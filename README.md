@@ -11,8 +11,7 @@ ERD
 
 
 
-Api명세서
-# 회원가입
+# 회원가입 Api명세서
 
 [로그인](https://www.notion.so/3270af0408bc4e72b8a521b7948b4476)
 
