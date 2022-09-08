@@ -53,5 +53,3 @@ db초기화 후 로그인 성공함
 <h3>2</h3><br>
 헤더에 토큰이 요청되지 않는 사항 발생.<br>
 Service에 Refresh-Token을 헤더에 보내는 과정에서 Refresh-Token에 대한 명칭 통일(refreshtoken)
-
-
