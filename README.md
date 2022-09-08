@@ -44,9 +44,10 @@ ERD
 <br>
 <h1>Trouble Shooting</h1>
 
-BE:회원가입은 되는데 로그인 실패. SQL error 500 메시지 나옴. 기존 아이디는 로그인이 가능했었음
-postman으로 새로운 아이디 생성 후 로그인시도 콘솔에 nullpointexception이 터져서 확인, 
-refresh토큰 테이블에 잘못된 entity속성이 들어갔음.
+BE:회원가입은 되는데 로그인 실패. SQL error 500 메시지 나옴.<br> 
+기존 아이디는 로그인이 가능했었음<br>
+postman으로 새로운 아이디 생성 후 로그인시도 콘솔에 nullpointexception이 터져서 확인,<br> 
+refresh토큰 테이블에 잘못된 entity속성이 들어갔음.<br>
 db초기화 후 로그인 성공함
 
 
