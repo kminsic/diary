@@ -44,12 +44,13 @@ ERD
 <br>
 <h1>Trouble Shooting</h1>
 
-BE:회원가입은 되는데 로그인 실패. SQL error 500 메시지 나옴.<br> 
+<h3>1</h3><br>
+회원가입은 되는데 로그인 실패. SQL error 500 메시지 나옴.<br> 
 기존 아이디는 로그인이 가능했었음<br>
 postman으로 새로운 아이디 생성 후 로그인시도 콘솔에 nullpointerexception이 터져서 확인,<br> 
 refresh토큰 테이블에 잘못된 entity속성이 들어갔음.<br>
 db초기화 후 로그인 성공함
-
-
+<h3>2</h3><br>
+헤더에 토큰이 요청되지 않는 사항 발생 -> Service에 Refresh-Token을 헤더에 보내는 과정에서 Refresh-Token에 대한 명칭 통일(refreshtoken)
 
 
