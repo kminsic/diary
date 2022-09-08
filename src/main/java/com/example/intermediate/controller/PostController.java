@@ -20,11 +20,10 @@ public class PostController {
 
     // 게시글 작성
     @PostMapping("/api/auth/posts")
-    public ResponseDto<?> createPost(@RequestPart(value = "title") PostRequestDto requestDto1,
-                                     @RequestPart(value = "content") PostRequestDto requestDto2,
+    public ResponseDto<?> createPost(@RequestPart(value = "content") PostRequestDto requestDto,
                                      @RequestPart(value = "image", required = false) MultipartFile file,
                                      HttpServletRequest request) {
-        return postService.createPost(requestDto1, requestDto2, request, file);
+        return postService.createPost(requestDto, request, file);
     }
 
     // 상세 게시글 가져오기
@@ -42,11 +41,10 @@ public class PostController {
     // 게시글 수정
     @PutMapping("/api/auth/posts/{id}")
     public ResponseDto<?> updatePost(@PathVariable Long id,
-                                     @RequestPart(value = "title", required = false) PostRequestDto requestDto1,
-                                     @RequestPart(value = "content", required = false) PostRequestDto requestDto2,
+                                     @RequestPart(value = "content", required = false) PostRequestDto requestDto,
                                      @RequestPart(value = "image", required = false) MultipartFile file,
                                      HttpServletRequest request) {
-        return postService.updatePost(id, requestDto1, requestDto2, file, request);
+        return postService.updatePost(id, requestDto, file, request);
     }
 
     //게시글 삭제

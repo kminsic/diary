@@ -1,11 +1,6 @@
 package com.example.intermediate.service;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.example.intermediate.controller.request.PostRequestDto;
-import com.example.intermediate.controller.response.CommentResponseDto;
-import com.example.intermediate.controller.response.PostResponseAllDto;
-import com.example.intermediate.controller.response.PostResponseDto;
-import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.domain.Comment;
 import com.example.intermediate.domain.Member;
 import com.example.intermediate.domain.Post;
@@ -14,6 +9,11 @@ import com.example.intermediate.external.UploadService;
 import com.example.intermediate.jwt.TokenProvider;
 import com.example.intermediate.repository.CommentRepository;
 import com.example.intermediate.repository.PostRepository;
+import com.example.intermediate.controller.request.PostRequestDto;
+import com.example.intermediate.controller.response.CommentResponseDto;
+import com.example.intermediate.controller.response.PostResponseAllDto;
+import com.example.intermediate.controller.response.PostResponseDto;
+import com.example.intermediate.controller.response.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,8 +44,7 @@ public class PostService {
 
   // 게시글 작성
   @Transactional
-  public ResponseDto<?> createPost(PostRequestDto requestDto1,
-                                   PostRequestDto requestDto2,
+  public ResponseDto<?> createPost(PostRequestDto requestDto,
                                    HttpServletRequest request,
                                    MultipartFile file) {
 
@@ -76,8 +75,8 @@ public class PostService {
      ResponseDto.success(s3Service.getFileUrl(fileName));
 
     Post post = Post.builder()
-        .title(requestDto1.getTitle())
-        .content(requestDto2.getContent())
+        .title(requestDto.getTitle())
+        .content(requestDto.getContent())
         .imgUrl(s3Service.getFileUrl(fileName))
         .likes(0)
         .member(member)
@@ -167,8 +166,7 @@ public class PostService {
   // 게시글 수정
   @Transactional
   public ResponseDto<?> updatePost(Long id,
-                                   PostRequestDto requestDto1,
-                                   PostRequestDto requestDto2,
+                                   PostRequestDto requestDto,
                                    MultipartFile file,
                                    HttpServletRequest request
                                    ) {
@@ -212,8 +210,8 @@ public class PostService {
 
     awsS3UploadService.deleteFile(getFileNameFromURL(post.getImgUrl()));  // 기존 파일 삭제
 
-    post.setTitle(requestDto1.getTitle());
-    post.setContent(requestDto2.getContent());
+    post.setTitle(requestDto.getTitle());
+    post.setContent(requestDto.getContent());
     post.setImgUrl(s3Service.getFileUrl(fileName));
 
     /// 댓글 목록 생성

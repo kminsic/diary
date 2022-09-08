@@ -29,7 +29,7 @@ public class WebSecurityConfig  {
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("http://eunjiroh.shop.s3-website.ap-northeast-2.amazonaws.com");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.addExposedHeader("*"); // 모든걸 허용함

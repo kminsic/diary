@@ -1,12 +1,13 @@
 package com.example.intermediate.controller;
 
-import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.controller.request.CommentRequestDto;
+import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.service.CommentService;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Validated
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class CommentController {
   // 댓글 작성
   @PostMapping("/api/auth/comments")
   public ResponseDto<?> createComment(@RequestBody CommentRequestDto requestDto,
-      HttpServletRequest request) {
+                                      HttpServletRequest request) {
     return commentService.createComment(requestDto, request);
   }
 
@@ -29,6 +30,8 @@ public class CommentController {
   }
 
   // 댓글 수정
+
+  //api주소에 들어가는 id는 코멘트 id, requestDto에 들어가는 id는 postId
   @RequestMapping(value = "/api/auth/comments/{id}", method = RequestMethod.PUT)
   public ResponseDto<?> updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto,
       HttpServletRequest request) {

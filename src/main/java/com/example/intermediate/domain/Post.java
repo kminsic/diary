@@ -41,14 +41,7 @@ public class Post extends Timestamped {
     return !this.member.equals(member);
   }
 
-//  public void addLike() {
-//    this.likes += 1;
-//    System.out.println("this.content = " + this.content);
-//    System.out.println("this.likes = " + this.likes);
-//  }
-//  public void delteLike(){
-//    this.likes -= 1;
-//  }
+
 
  // 라이크 신기능
 public void updatelikes(int num) {

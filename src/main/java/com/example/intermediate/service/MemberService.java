@@ -1,13 +1,13 @@
 package com.example.intermediate.service;
 
+import com.example.intermediate.domain.Member;
+import com.example.intermediate.jwt.TokenProvider;
+import com.example.intermediate.repository.MemberRepository;
 import com.example.intermediate.controller.request.LoginRequestDto;
 import com.example.intermediate.controller.request.MemberRequestDto;
 import com.example.intermediate.controller.request.TokenDto;
 import com.example.intermediate.controller.response.MemberResponseDto;
 import com.example.intermediate.controller.response.ResponseDto;
-import com.example.intermediate.domain.Member;
-import com.example.intermediate.jwt.TokenProvider;
-import com.example.intermediate.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -70,9 +70,7 @@ public class MemberService {
       return ResponseDto.fail("INVALID_MEMBER", "사용자를 찾을 수 없습니다.");
     }
 
-//    UsernamePasswordAuthenticationToken authenticationToken =
-//        new UsernamePasswordAuthenticationToken(requestDto.getNickname(), requestDto.getPassword());
-//    Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
 
     TokenDto tokenDto = tokenProvider.generateTokenDto(member);
     tokenToHeaders(tokenDto, response);
@@ -88,29 +86,7 @@ public class MemberService {
     );
   }
 
-//  @Transactional
-//  public ResponseDto<?> reissue(HttpServletRequest request, HttpServletResponse response) {
-//    if (!tokenProvider.validateToken(request.getHeader("RefreshToken"))) {
-//      return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
-//    }
-//    Member member = tokenProvider.getMemberFromAuthentication();
-//    if (null == member) {
-//      return ResponseDto.fail("MEMBER_NOT_FOUND",
-//          "사용자를 찾을 수 없습니다.");
-//    }
-//
-//    Authentication authentication = tokenProvider.getAuthentication(request.getHeader("Access-Token"));
-//    RefreshToken refreshToken = tokenProvider.isPresentRefreshToken(member);
-//
-//    if (!refreshToken.getValue().equals(request.getHeader("RefreshToken"))) {
-//      return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
-//    }
-//
-//    TokenDto tokenDto = tokenProvider.generateTokenDto(member);
-//    refreshToken.updateValue(tokenDto.getRefreshToken());
-//    tokenToHeaders(tokenDto, response);
-//    return ResponseDto.success("success");
-//  }
+
 
   public ResponseDto<?> logout(HttpServletRequest request) {
     if (!tokenProvider.validateToken(request.getHeader("RefreshToken"))) {

@@ -13,7 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         WebMvcConfigurer.super.addCorsMappings(registry);
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
+                .allowedOrigins("http://eunjiroh.shop.s3-website.ap-northeast-2.amazonaws.com")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
                 

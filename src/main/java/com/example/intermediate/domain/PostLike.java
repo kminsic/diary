@@ -25,4 +25,3 @@ public class PostLike {
 
 }
 
-//라이크 신기능
